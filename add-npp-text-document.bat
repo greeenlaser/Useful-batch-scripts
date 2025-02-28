@@ -8,7 +8,7 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
-echo Adding Notepad++ Text Document to right-click context menu...
+echo Creating .txt registry keys for 'New -> Text Document'...
 
 :: Define Notepad++ path
 set "NPP_PATH=C:\Program Files\Notepad++\notepad++.exe"
@@ -21,14 +21,24 @@ if not exist "%NPP_PATH%" (
     exit /b
 )
 
-:: Associate .npp extension with Notepad++
-reg add "HKEY_CLASSES_ROOT\.npp" /ve /d "NotepadPP.Document" /f
-reg add "HKEY_CLASSES_ROOT\NotepadPP.Document" /ve /d "Notepad++ Text Document" /f
-reg add "HKEY_CLASSES_ROOT\NotepadPP.Document\DefaultIcon" /ve /d "\"%NPP_PATH%\",0" /f
-reg add "HKEY_CLASSES_ROOT\NotepadPP.Document\shell\open\command" /ve /d "\"%NPP_PATH%\" \"%%1\"" /f
+:: Ensure .txt uses the 'txtfile' ProgID
+reg add "HKEY_CLASSES_ROOT\.txt" /ve /d "txtfile" /f
 
-:: Enable 'New' context menu for Notepad++ documents
-reg add "HKEY_CLASSES_ROOT\.npp\ShellNew" /v NullFile /f
+:: Enable 'New' context menu for .txt files
+reg add "HKEY_CLASSES_ROOT\.txt\ShellNew" /v NullFile /t REG_SZ /d "" /f
+
+:: Set perceived type and content type
+reg add "HKEY_CLASSES_ROOT\.txt" /v PerceivedType /t REG_SZ /d "text" /f
+reg add "HKEY_CLASSES_ROOT\.txt" /v "Content Type" /t REG_SZ /d "text/plain" /f
+
+:: Define txtfile class (friendly name and open command)
+reg add "HKEY_CLASSES_ROOT\txtfile" /ve /t REG_SZ /d "Text Document" /f
+reg add "HKEY_CLASSES_ROOT\txtfile\shell" /ve /t REG_SZ /d "open" /f
+reg add "HKEY_CLASSES_ROOT\txtfile\shell\open\command" /ve /t REG_SZ /d "\"%NPP_PATH%\" \"%%1\"" /f
+
+:: Associate .txt with Notepad++
+assoc .txt=txtfile
+ftype txtfile="%NPP_PATH%" "%%1"
 
 echo.
 echo Notepad++ Text Document has been added to the right-click 'New' menu.
