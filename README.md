@@ -20,6 +20,12 @@ Adds an option "Open Admin Powershell here" when you right-click on desktop or i
 
 ---
 
+### remove-ms-overlay.bat
+  
+Removes the microsoft overlay popup warning that occurs if you try to launch a game that requires ms overlay.
+
+---
+
 ### remove-npp-text-document.bat
   
 Removes the added "Notepad++ Text Document" that was added by add-npp-text-document.bat.
@@ -44,9 +50,15 @@ Removes the snippet tool shortcuts Win + Shift + S and Printscreen.
 
 ---
 
+### restore-ms-overlay.bat
+  
+Restores the microsoft gaming overlay.
+
+---
+
 ### restore-snippet-tool-shortcuts.bat
   
-This will restore Win + Shift + S and Printscreen shortcuts for the Windows Snippet Tool program.
+Restores Win + Shift + S and Printscreen shortcuts for the Windows Snippet Tool program.
 
 ---
 
